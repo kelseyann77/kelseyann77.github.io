@@ -1,3 +1,9 @@
+@font-face {
+	font-family: PermanentMarker;
+	src: https://fonts.google.com/specimen/Permanent+Marker;
+  }
+
 h1 {
+	font: PermanentMarker;
 	color: blue;
 }
