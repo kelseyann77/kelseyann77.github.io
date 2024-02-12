@@ -1,9 +1,33 @@
-@font-face {
-	font-family: PermanentMarker;
-	src: https://fonts.google.com/specimen/Permanent+Marker;
-  }
+/* Background color for navigation bar */
+.nav {
+	background-color: #5d0e7c;
+	overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.nav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 20px;
+	text-decoration: none;
+	font-size: 25px;
+	font-family: "Protest Riot";
+}
+  
+/* Change the color of links on hover */
+.nav a:hover {
+	background-color: #ddd;
+	color: #5d0e7c;
+}
+  
+/* Add a color to the active/current link */
+.nav a.active {
+	background-color: #ce5ffa;
+	color: white;
+}
 
 h1 {
-	font: PermanentMarker;
-	color: blue;
+	font-family: "Protest Riot";
+	color: #5d0e7c;
 }
