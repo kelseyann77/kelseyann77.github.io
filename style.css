@@ -30,6 +30,7 @@
 	text-decoration: none;
 	font-size: 25px;
 	font-family: "Protest Riot";
+  display: flex;
 }
   
 /* Change the color of links on hover */
@@ -49,9 +50,10 @@
 	  float: none;
 	  display: block;
 	  text-align: left;
+    font-size:medium;
+    overflow: auto;
 	}
   }
-
 
 body {
 	background-color: #FF9BD2;
@@ -68,7 +70,7 @@ h1 {
 p {
 	font-family: "Raleway";
 	font-weight: 500;
-	font-size: large;
+	font-size:medium;
 	text-align: center;
 	text-justify: inter-word;
 }
@@ -86,7 +88,7 @@ p {
 }
 
 
-
+/* Slideshow CSS */
 
 * {box-sizing:border-box}
 
