@@ -4,6 +4,7 @@ var currentPlayer = player1;
 
 var gameOver = false;
 var board;
+var currentColumns;
 
 var rows = 6;
 var columns = 7;
@@ -19,6 +20,10 @@ function setGame() {
     // Create the array for the entire board
     board = [];
 
+    // Since the pieces need to show up at the bottom of the board,
+    // we will set the current columns to the last row (5)
+    currentColumns = [ 5, 5, 5, 5, 5, 5, 5 ]
+
     // Create a for loop that will loop through all the tiles
     // First create an array to account for each row
     for ( let r = 0; r < rows; r++ ) {
@@ -33,7 +38,7 @@ function setGame() {
             let tile = document.createElement( "div" );
 
             // the ids will look like: 0-0, 0-1, 0-2, ...
-            tile.id = r.toString() + "-" + c.toString();
+            tile.id = r.toString() + "_" + c.toString();
             tile.classList.add( "tile" );
 
             // Add Event Listener to add a new piece whenever users click on a column
@@ -61,24 +66,44 @@ function setPiece() {
     // If the game is not over, then we will obtain the coordinates of the tile that has been clicked
     // Example: if 3-5 is clicked, coords will be set to [3,5]
     //          then r = 3 and c = 5
-    let coords = this.id.split("-");
+    let coords = this.id.split("_");
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
+
+    // Set the row number according to the bottom most available cell
+    r = currentColumns[ c ];
+
+    // when r is filled up, then pieces can no longer be added to the column
+    if ( r < 0 ) {
+        return;
+    } // end if r
 
     // Update the board
     board[r][c] = currentPlayer;
 
-    // Update HTML
-    let tile = this;
+    // Update HTML - obtain the current tile object
+    let tile = document.getElementById( r.toString() + "_" + c.toString() );
 
     // If the currentplayer is Player 1, add player 1's piece to the board
     // Otherwise, add player 2's piece to the board
     if (currentPlayer == player1 ) {
         tile.classList.add( "player1" );
+
+        // alternate players after each turn
+        currentPlayer = player2;
     }
     else {
         tile.classList.add( "player2" );
+
+        // alternate players after each turn
+        currentPlayer = player1;
     }
 
+    // Whenever a new piece is added, we want to update r
+    // so that we can keep track of the bottom most row for the column
+    // Update the row height for specified column and the array
+    r = r - 1;
+    currentColumns[ c ] = r;
 
-}
+
+} // end function setPiece
