@@ -64,4 +64,21 @@ function setPiece() {
     let coords = this.id.split("-");
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
+
+    // Update the board
+    board[r][c] = currentPlayer;
+
+    // Update HTML
+    let tile = this;
+
+    // If the currentplayer is Player 1, add player 1's piece to the board
+    // Otherwise, add player 2's piece to the board
+    if (currentPlayer == player1 ) {
+        tile.classList.add( "player1" );
+    }
+    else {
+        tile.classList.add( "player2" );
+    }
+
+
 }

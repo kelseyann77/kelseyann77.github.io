@@ -29,9 +29,11 @@ body {
 }
 
 .player1 {
+	/* Set color of player 1's pieces */
 	background-color: rgb(218, 73, 73);
 }
 
 .player2 {
+	/* Set color of player 2's pieces */
 	background-color:rgb(255, 253, 143)
 }
