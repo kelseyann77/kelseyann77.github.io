@@ -1,8 +1,11 @@
-var player1 = "p1";
-var player2 = "p2";
-var currentPlayer = player1;
+var player1 = 1;
+var player2 = 2;
+var p1turn = "It's your turn, Player 1 (Red)";
+var p2turn = "It's your turn, Player 2 (Yellow)";
 
+var currentPlayer = player1;
 var gameOver = false;
+
 var board;
 var currentColumns;
 
@@ -18,26 +21,27 @@ window.onload = function() {
 function setGame() {
     
     // Create the array for the entire board
-    board = [];
+    board = [
+        [ 0, 0, 0, 0, 0, 0, 0 ], 
+        [ 0, 0, 0, 0, 0, 0, 0 ], 
+        [ 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 0, 0 ],
+    ];
 
     // Since the pieces need to show up at the bottom of the board,
     // we will set the current columns to the last row (5)
     currentColumns = [ 5, 5, 5, 5, 5, 5, 5 ]
 
     // Create a for loop that will loop through all the tiles
-    // First create an array to account for each row
     for ( let r = 0; r < rows; r++ ) {
-        let row = [];
-
-        // Traverse through each column
         for ( let c = 0; c < columns; c++ ) {
-            row.push(' ');
-
             // Create HTML to add <div id="0-0" class="tile"></div>
             // inside the board
             let tile = document.createElement( "div" );
 
-            // the ids will look like: 0-0, 0-1, 0-2, ...
+            // the ids will look like: 0_0, 0_1, 0_2, ...
             tile.id = r.toString() + "_" + c.toString();
             tile.classList.add( "tile" );
 
@@ -48,18 +52,14 @@ function setGame() {
             // within <div id ="board">, we want to add the newly created tiles
             document.getElementById( "board" ).append( tile );
         } // end for c
-
-        board.push( row );
-
     } // end for r
 
-    document.getElementById( "turn" ).innerHTML( "p2turn" );
+    document.getElementById( "turn" ).innerHTML = p1turn;
+
 } // end function setGame
 
 // This function is responsible for adding pieces to the board
 function setPiece() {
-
-    
 
     // We will check if the game is over
     // If the game is over, then nothing will happen
@@ -96,14 +96,14 @@ function setPiece() {
 
         // alternate players after each turn
         currentPlayer = player2;
-        document.getElementById( "turn" ).innerHTML( "p2turn" );
+        document.getElementById( "turn" ).innerHTML = p2turn;
     }
     else {
         tile.classList.add( "player2" );
 
         // alternate players after each turn
         currentPlayer = player1;
-        document.getElementById( "turn" ).innerHTML( "p1turn" );
+        document.getElementById( "turn" ).innerHTML = p1turn;
     }
 
     // Whenever a new piece is added, we want to update r
@@ -116,19 +116,3 @@ function setPiece() {
     // checkForWinner();
 
 } // end function setPiece
-
-// We will traverse each tile of the board to see if it is filled or not
-// If the tile is filled, we will check
-function checkForWinner () {
-
-    // Horizontal Win
-    //for ( )
-
-    // Vertical Win
-
-    // Diagonal (/) Win
-
-    // Diagonal (\) Win
-
-
-} // end function checkForWinner
