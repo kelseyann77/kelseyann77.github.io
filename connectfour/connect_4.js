@@ -1,5 +1,7 @@
+// Set global variables
 var player1 = 1;
 var player2 = 2;
+
 var p1turn = "It's your turn, Player 1 (Red)";
 var p2turn = "It's your turn, Player 2 (Yellow)";
 
@@ -54,7 +56,8 @@ function setGame() {
         } // end for c
     } // end for r
 
-    document.getElementById( "turn" ).innerHTML = p1turn;
+    // Prompt the players who's turn it is
+    document.getElementById( "announce" ).innerHTML = p1turn;
 
 } // end function setGame
 
@@ -96,14 +99,14 @@ function setPiece() {
 
         // alternate players after each turn
         currentPlayer = player2;
-        document.getElementById( "turn" ).innerHTML = p2turn;
+        document.getElementById( "announce" ).innerHTML = p2turn;
     }
     else {
         tile.classList.add( "player2" );
 
         // alternate players after each turn
         currentPlayer = player1;
-        document.getElementById( "turn" ).innerHTML = p1turn;
+        document.getElementById( "announce" ).innerHTML = p1turn;
     }
 
     // Whenever a new piece is added, we want to update r
@@ -113,6 +116,85 @@ function setPiece() {
     currentColumns[ c ] = r;
 
     // After pieces are added, we want to see if there is a winner
-    // checkForWinner();
+    checkForWinner();
 
 } // end function setPiece
+
+// The function checks for a winner
+// If the board is full and there is no winner, it will determine the game as a tie
+function checkForWinner(){
+    
+    // horizontal
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c <= columns - 4; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r][c + 1] &&
+                board[r][c] == board[r][c + 2] && board[r][c] == board[r][c + 3]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
+
+    // vertical
+    for (let r = 0; r <= rows - 4; r++) {
+        for (let c = 0; c < columns; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r + 1][c] &&
+                board[r][c] == board[r + 2][c] && board[r][c] == board[r + 3][c]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
+
+    // diagonal (/)
+    for (let r = 3; r < rows; r++) {
+        for (let c = 0; c <= columns - 4; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r - 1][c + 1] &&
+                board[r][c] == board[r - 2][c + 2] && board[r][c] == board[r - 3][c + 3]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
+
+    // diagonal (\)
+    for (let r = 0; r <= rows - 4; r++) {
+        for (let c = 0; c <= columns - 4; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r + 1][c + 1] &&
+                board[r][c] == board[r + 2][c + 2] && board[r][c] == board[r + 3][c + 3]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
+
+    // Check for a tie
+    if (isBoardFull()) {
+        announceWinner(0); // 0 represents a tie
+    }
+
+} // end checkForWinner 
+
+function isBoardFull() {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+
+            // If there is an empty spot on the board, this function will return false
+            if (board[r][c] == 0) {
+                return false;
+            }
+        }
+    }
+
+    // When the board is full and there are no empty spots, this function will return true
+    return true; 
+}
+
+function announceWinner(winner) {
+    gameOver = true;
+    if (winner == 0) {
+        document.getElementById("announce").innerHTML = "It's a tie!";
+    } else {
+        document.getElementById("announce").innerHTML = "Player " + winner + " wins!";
+    }
+}
