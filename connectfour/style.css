@@ -37,3 +37,17 @@ body {
 	/* Set color of player 2's pieces */
 	background-color:rgb(255, 253, 143)
 }
+
+/* .falling-animation {
+    animation: fall 0.5s ease-in-out; 
+} 
+
+@keyframes fall {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+*/

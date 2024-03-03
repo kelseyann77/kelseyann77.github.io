@@ -21,6 +21,11 @@ window.onload = function() {
 
 // This function sets up the game
 function setGame() {
+
+    // Clear existing tiles before creating new ones
+    document.getElementById("board").innerHTML = "";
+
+    gameOver = false;
     
     // Create the array for the entire board
     board = [
@@ -34,7 +39,7 @@ function setGame() {
 
     // Since the pieces need to show up at the bottom of the board,
     // we will set the current columns to the last row (5)
-    currentColumns = [ 5, 5, 5, 5, 5, 5, 5 ]
+    currentColumns = [ 5, 5, 5, 5, 5, 5, 5 ];
 
     // Create a for loop that will loop through all the tiles
     for ( let r = 0; r < rows; r++ ) {
@@ -91,6 +96,9 @@ function setPiece() {
 
     // Update HTML - obtain the current tile object
     let tile = document.getElementById( r.toString() + "_" + c.toString() );
+
+    // Include falling animation
+    // tile.classList.add("falling-animation");
 
     // If the currentplayer is Player 1, add player 1's piece to the board
     // Otherwise, add player 2's piece to the board
