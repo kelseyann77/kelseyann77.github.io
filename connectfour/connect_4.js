@@ -97,9 +97,6 @@ function setPiece() {
     // Update HTML - obtain the current tile object
     let tile = document.getElementById( r.toString() + "_" + c.toString() );
 
-    // Include falling animation
-    // tile.classList.add("falling-animation");
-
     // If the currentplayer is Player 1, add player 1's piece to the board
     // Otherwise, add player 2's piece to the board
     if (currentPlayer == player1 ) {
@@ -116,7 +113,7 @@ function setPiece() {
         currentPlayer = player1;
         document.getElementById( "announce" ).innerHTML = p1turn;
     }
-
+    
     // Whenever a new piece is added, we want to update r
     // so that we can keep track of the bottom most row for the column
     // Update the row height for specified column and the array
@@ -183,6 +180,7 @@ function checkForWinner(){
 
 } // end checkForWinner 
 
+// Function for checking whether the board is full or not
 function isBoardFull() {
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
@@ -198,6 +196,7 @@ function isBoardFull() {
     return true; 
 }
 
+// Function for announcing winner
 function announceWinner(winner) {
     gameOver = true;
     if (winner == 0) {
@@ -206,3 +205,24 @@ function announceWinner(winner) {
         document.getElementById("announce").innerHTML = "Player " + winner + " wins!";
     }
 }
+
+// Function for changing board color
+function changeColors() {
+
+    const boardElement = document.getElementById("board");
+    const currentColor = boardElement.style.backgroundColor;
+    const currentBorder = boardElement.style.border;
+
+    if (currentColor == "rgb(0, 128, 138)") {
+        newColor = "rgb(116, 134, 233)";
+        newBorder = "12px solid rgb(0, 30, 128)";
+    }
+    else {
+        newColor = "rgb(0, 128, 138)";
+        newBorder = "12px solid rgb(0, 30, 128)";
+    }
+    
+    boardElement.style.backgroundColor = newColor;
+    boardElement.style.border = newBorder;
+}
+
