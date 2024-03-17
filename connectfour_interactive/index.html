@@ -14,13 +14,17 @@
     <!-- there is one gameboard, so it will be assigned an id -->
     <!-- there are multiple tiles and pieces, so they will be assigned with classes -->
 
-    <body>
+    
+
+    
+    <main>
         <h1>Connect 4</h1>
         <p>
             Kelsey Corro<br>
             CS 532 - Modern Web Technologies<br>
-            Simple Multiplayer Game Assignment
+            Distributed Multiplayer Game Assignment
         </p>
+        <br>
         
         <h2>Instructions</h2>
         <p>
@@ -28,10 +32,14 @@
             Click on the row you would like to drop your piece. <br>
             Try to connect four of your pieces before your opponent.<br>
         </p>
+        <br>
 
         <h2 id ="winner"></h2>
         <button onclick="changeColors()">Change Board Color</button>
+        <br>
+        <br>
         <h2 id = "announce"></h2>
+        <br>
         <div id ="board">
             <!-- 42 tiles (6 rows & 7 columns)-->
             <!-- JavaScript will insert:  
@@ -42,7 +50,27 @@
         <br>
         <button onclick="setGame()">Reset Game</button>        
         
-        
-    </body>
+    </main>
 
+    <!-- <div class="chat-container">
+        <app-chat>
+          <div class="main-container-chat">
+            <div class="message-box-container" id="message-box-container">
+            </div>
+            <div class="chat-input">
+              <input class="ng-untouched ng-pristine ng-valid">
+              <button>Send</button>
+            </div>
+          </div>
+        </app-chat>
+    </div> -->
+
+    <aside>
+        <p> here is where I want to put chat box </p>
+        <div class="message-box-container" id="message-box-container">
+        </div>
+        <div class="chat-input">
+    </aside>
+    
+    
 </html>

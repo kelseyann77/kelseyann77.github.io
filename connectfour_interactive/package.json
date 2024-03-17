@@ -1,0 +1,15 @@
+{
+  "name": "connectfour_interactive",
+  "version": "1.0.0",
+  "description": "Referenced: \r https://www.youtube.com/watch?v=4ARsthVnCTg&ab_channel=KennyYipCoding\r https://github.com/ImKennyYip/Connect4\r https://simulationcorner.net/index.php?page=connectfour",
+  "main": "connect_4.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.7.5"
+  }
+}

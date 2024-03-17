@@ -1,0 +1,7 @@
+Referenced: 
+https://www.youtube.com/watch?v=4ARsthVnCTg&ab_channel=KennyYipCoding
+https://github.com/ImKennyYip/Connect4
+https://simulationcorner.net/index.php?page=connectfour 
+
+https://stackoverflow.com/questions/53713267/fixed-side-chat-menu-using-flex-box 
+https://reintech.io/blog/how-to-create-chat-application-using-node-js 
