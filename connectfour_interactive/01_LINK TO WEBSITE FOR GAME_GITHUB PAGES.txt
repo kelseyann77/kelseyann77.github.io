@@ -1,1 +1,1 @@
-https://kelseyann77.github.io/connectfour_interactive/index.html
+https://kelseyann77.github.io/connectfour_interactive/public/index.html
