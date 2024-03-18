@@ -1,3 +1,10 @@
+Commands to install packages used to setup server:
+cd <directory containing 'public' folder>
+npm init -y
+npm install socket.io
+npm install express
+node server.js
+
 Referenced: 
 https://www.youtube.com/watch?v=4ARsthVnCTg&ab_channel=KennyYipCoding
 https://github.com/ImKennyYip/Connect4
