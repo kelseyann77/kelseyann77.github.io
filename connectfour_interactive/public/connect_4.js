@@ -225,4 +225,3 @@ function changeColors() {
     boardElement.style.backgroundColor = newColor;
     boardElement.style.border = newBorder;
 }
-

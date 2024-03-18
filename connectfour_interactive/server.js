@@ -3,12 +3,16 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+app.use(express.static('public'));
+
 // app.use( (req, res, next) => { 
 // 	console.log('Time:', Date.now()) 
 //    next() 
 // })
 
-app.use(express.static('public'));
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+})
 
 io.on('connection', (socket) => {
     console.log('A user connected');
