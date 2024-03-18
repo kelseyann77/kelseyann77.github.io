@@ -9,7 +9,7 @@ body {
 	background-color: #FF9BD2;
 }
 
-main {
+#right_column {
 	float: right;
 	width: 70%;
 	min-width: 720px;
@@ -58,7 +58,7 @@ button {
 	background-color:rgb(255, 253, 143)
 }
 
-aside {
+#left_column {
 	width: 30%;
 	height: 100%;
 	padding: 2%;

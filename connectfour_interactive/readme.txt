@@ -3,6 +3,7 @@ cd <directory containing 'public' folder>
 npm init -y
 npm install socket.io
 npm install express
+npm install express-session
 node server.js
 
 Referenced: 
