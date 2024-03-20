@@ -20,8 +20,6 @@ app.get('/', function(req, res) {
 })
 
 io.on('connection', (socket) => {
-    // console.log('A user connected');
-    // console.log('Time:', Date.now());
 
     // Assign player numbers
     let playerNumber = players.length + 1;

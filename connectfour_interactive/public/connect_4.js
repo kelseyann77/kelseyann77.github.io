@@ -1,3 +1,5 @@
+// const socket = io();
+
 // Set global variables
 var player1 = 1;
 var player2 = 2;
