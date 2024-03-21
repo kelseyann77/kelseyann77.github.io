@@ -23,11 +23,13 @@ document.getElementById('find').addEventListener("click", function () {
 
         socket.emit("find", { name: username });
 
-        document.getElementById("loading").style.display = "block";
+        document.getElementById("loading").style.display = "flex";
         document.getElementById("find").disabled = true;
 
     }
 });
+
+let clientPlayer;
 
 socket.on("find", (e) => {
 
@@ -55,22 +57,33 @@ socket.on("find", (e) => {
         document.getElementById("oppNameCont").style.display = "block";
         document.getElementById("colorCont").style.display = "block";
         document.getElementById("announce").style.display = "block";
-        document.getElementById("announce").innerText = "It's your turn, Player 1 (Red)";
+        document.getElementById("announce").innerText = "It's your turn RED";
 
     }
 
-    let oppName;
-    let value;
+    let oppName; // opponent name
+    let colorValue; // red or yellow
 
     // Match the name given to either the user or the opponent
     const foundObject = allPlayersArray.find(obj => obj.p1.p1name == `${username}` || obj.p2.p2name == `${username}`);
     
-    // rewrite switch statements
-    foundObject.p1.p1name == `${username}` ? oppName = foundObject.p2.p2name : oppName = foundObject.p1.p1name;
-    foundObject.p1.p1name == `${username}` ? value = foundObject.p1.p1value : value = foundObject.p2.p2value;
+    // Assign the user's name, their opponent's name, and their color value
+    if ( foundObject.p1.p1name == `${username}`) {
+        oppName = foundObject.p2.p2name;
+        colorValue = foundObject.p1.p1value;
+        clientPlayer = player1;
+    }
+    else {
+        oppName = foundObject.p1.p1name;
+        colorValue = foundObject.p2.p2value;
+        clientPlayer = player2;
+    }
 
+    // Assign Opponent's name
     document.getElementById("oppName").innerText = oppName;
-    document.getElementById("colorvalue").innerText = value;
+
+    // Assign the user's player color
+    document.getElementById("colorvalue").innerText = colorValue;
 
 
 })
@@ -79,8 +92,8 @@ socket.on("find", (e) => {
 var player1 = 1;
 var player2 = 2;
 
-var p1turn = "It's your turn, Player 1 (Red)";
-var p2turn = "It's your turn, Player 2 (Yellow)";
+var p1turn = "It's your turn, RED";
+var p2turn = "It's your turn, YELLOW";
 
 var currentPlayer = player1;
 var gameOver = false;
@@ -90,11 +103,6 @@ var currentColumns;
 
 var rows = 6;
 var columns = 7;
-
-// When the page loads, we want the game to be setup
-// window.onload = function() {
-//     setGame();
-// }
 
 // This function sets up the game
 function setGame() {
@@ -153,6 +161,10 @@ function setPiece() {
         return;
     }
 
+    if (clientPlayer != currentPlayer) {
+        return;
+    }
+
     // If the game is not over, then we will obtain the coordinates of the tile that has been clicked
     // Example: if 3-5 is clicked, coords will be set to [3,5]
     //          then r = 3 and c = 5
@@ -173,6 +185,7 @@ function setPiece() {
 
     // Update HTML - obtain the current tile object
     let tile = document.getElementById( r.toString() + "_" + c.toString() );
+    let tileString = r.toString() + "_" + c.toString();
 
     // If the currentplayer is Player 1, add player 1's piece to the board
     // Otherwise, add player 2's piece to the board
@@ -180,27 +193,79 @@ function setPiece() {
         tile.classList.add( "player1" );
 
         // alternate players after each turn
-        currentPlayer = player2;
-        document.getElementById( "announce" ).innerHTML = p2turn;
+        // currentPlayer = player2;
+        // document.getElementById( "announce" ).innerHTML = p2turn;
     }
     else {
         tile.classList.add( "player2" );
 
         // alternate players after each turn
-        currentPlayer = player1;
-        document.getElementById( "announce" ).innerHTML = p1turn;
+        // currentPlayer = player1;
+        // document.getElementById( "announce" ).innerHTML = p1turn;
     }
-    
+
     // Whenever a new piece is added, we want to update r
     // so that we can keep track of the bottom most row for the column
     // Update the row height for specified column and the array
     r = r - 1;
     currentColumns[ c ] = r;
 
+    // Emitting data to the server after setting a piece on board
+    socket.emit("setPiece", {
+        tile: tileString,
+        currentPlayer: currentPlayer,
+        username: username,
+        board: board,
+        row: r, 
+        currentColumns: currentColumns
+    });
+
     // After pieces are added, we want to see if there is a winner
     checkForWinner();
 
 } // end function setPiece
+
+socket.on("setPiece", (e) => {
+    const foundObject = (e.allPlayers).find(obj => obj.p1.p1name == `${username}` || obj.p2.p2name == `${username}`);
+
+    p1id = foundObject.p1.p1move;
+    p2id = foundObject.p2.p2move;
+
+    console.log( "3 lines of setPiece socket successful");
+
+    if ((foundObject.sum) % 2 == 0) {
+        document.getElementById("announce").innerText = p2turn;
+    }
+    else {
+        document.getElementById("announce").innerText = p1turn;
+    }
+
+    if (p1id != '') {
+        document.getElementById(`${p1id}`).classList.add( "player1" );
+    }
+
+    if (p2id != '') {
+        document.getElementById(`${p2id}`).classList.add( "player2" );
+    }
+
+    if ( e.currentPlayer = 1 ) {
+        currentPlayer = player2;
+        console.log( "Successfully switched currentplayer to player2");
+    }
+    else if ( e.currentPlayer = 2 ) {
+        currentPlayer = player1;
+        console.log( "Successfully switched currentplayer to player1");
+    }
+    console.log( "Successfully switched currentplayer");
+
+    board = e.board;
+    currentColumns = e.currentColumns;
+
+
+    // check(name, foundObject.sum)
+
+
+})
 
 // The function checks for a winner
 // If the board is full and there is no winner, it will determine the game as a tie
