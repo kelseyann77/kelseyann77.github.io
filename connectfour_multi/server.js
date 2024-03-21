@@ -16,36 +16,17 @@ app.use(express.static(path.resolve("")));
 let players = [];
 
 // Store player names into arr array
-let playerNamesArray = []; // originally arr
+let playerNamesArray = [];
 let playingArray = [];
-// let playerIndex;
-// let p1or2;
 
 
 io.on("connection",(socket)=>{
 
-    // Assign player numbers
-    let playerNumber = players.length + 1;
-    players.push(socket);
-
-    // // Send player number to the client
-    // socket.emit('playerNumber', playerNumber); 
-    // console.log("Player " + playerNumber + " has joined");
-
     socket.on("find",(e)=>{
 
         if(e.name!=null){
-            
-            // playerIndex = (playerNamesArray.indexOf(e.name) + 1 );
-            // if ( playerIndex % 2 == 1 ) {
-            //     p1or2 = "Player 1";
-            // }
-            // else {
-            //     p1or2 = "Player 2";
-            // }
 
             playerNamesArray.push(e.name);
-            console.log( )
             console.log( e.name + " has connected" );
 
             if(playerNamesArray.length>=2){
@@ -104,62 +85,32 @@ io.on("connection",(socket)=>{
 
         // Send playingArray info to client
         io.emit("setPiece",{allPlayers:playingArray, 
-            currentplayer: e.currentplayer, 
+            currentPlayer: e.currentPlayer, 
             board: e.board, 
             row: e.row,
             currentColumns: e.currentColumns
         });
 
-        // console.log ("playingArray" + playingArray);
 
     })
 
     // How to handle player disconnections
     socket.on('disconnect', () => {
         // Display message of which player
-        console.log("Player " + playerNumber + ' has disconnected');
+        console.log("Player" + ' has disconnected');
 
         // Remove disconnected player
         players = players.filter(player => player !== socket);
     });
 
-    // socket.on("playing",(e)=>{
-    //     if(e.value=="X"){
-    //         let objToChange=playingArray.find(obj=>obj.p1.p1name===e.name)
-
-    //         objToChange.p1.p1move=e.id
-    //         objToChange.sum++
-    //     }
-    //     else if(e.value=="O"){
-    //         let objToChange=playingArray.find(obj=>obj.p2.p2name===e.name)
-
-    //         objToChange.p2.p2move=e.id
-    //         objToChange.sum++
-    //     }
-
-    //     io.emit("playing",{allPlayers:playingArray})
-
-    // })
-
-    // socket.on("gameOver",(e)=>{
-    //     playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
-    //     console.log(playingArray)
-    //     console.log("lol")
-    // })
 
 
 })
-
-
-
 
 app.get("/",(req,res)=>{
     return res.sendFile("index.html")
 });
 
-// server.listen(3000,()=>{
-//     console.log("port connected to 3000")
-// });
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {

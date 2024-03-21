@@ -226,12 +226,13 @@ function setPiece() {
 } // end function setPiece
 
 socket.on("setPiece", (e) => {
+
+    // extract data from server
+    const currentPlay = e.currentPlayer;
     const foundObject = (e.allPlayers).find(obj => obj.p1.p1name == `${username}` || obj.p2.p2name == `${username}`);
 
     p1id = foundObject.p1.p1move;
     p2id = foundObject.p2.p2move;
-
-    console.log( "3 lines of setPiece socket successful");
 
     if ((foundObject.sum) % 2 == 0) {
         document.getElementById("announce").innerText = p2turn;
@@ -248,22 +249,15 @@ socket.on("setPiece", (e) => {
         document.getElementById(`${p2id}`).classList.add( "player2" );
     }
 
-    if ( e.currentPlayer = 1 ) {
-        currentPlayer = player2;
-        console.log( "Successfully switched currentplayer to player2");
+    if ( currentPlay == 1 ) {
+        currentPlayer = 2;
     }
-    else if ( e.currentPlayer = 2 ) {
-        currentPlayer = player1;
-        console.log( "Successfully switched currentplayer to player1");
+    else if ( currentPlay == 2 ) {
+        currentPlayer = 1;
     }
-    console.log( "Successfully switched currentplayer");
 
     board = e.board;
     currentColumns = e.currentColumns;
-
-
-    // check(name, foundObject.sum)
-
 
 })
 
@@ -367,4 +361,3 @@ function changeColors() {
     boardElement.style.backgroundColor = newColor;
     boardElement.style.border = newBorder;
 }
-
