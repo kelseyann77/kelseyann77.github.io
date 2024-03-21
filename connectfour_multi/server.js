@@ -97,7 +97,8 @@ io.on("connection",(socket)=>{
     socket.on("setWinner",(e)=>{
 
         // Extract data sent from the client
-        const { winner, winnerFound } = e;
+        const { winner } = e;
+        const { winnerFound } = e;
         
         console.log( "winner: " + winner );
 

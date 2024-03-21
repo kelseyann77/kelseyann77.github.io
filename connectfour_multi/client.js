@@ -35,7 +35,6 @@ socket.on("find", (e) => {
 
     // get allPlayers data from server
     let allPlayersArray = e.allPlayers;
-    console.log("html",allPlayersArray);
 
     if (username != '') {
 
@@ -48,6 +47,7 @@ socket.on("find", (e) => {
         document.getElementById("name").style.display = "none";
         document.getElementById("find").style.display = "none";
         document.getElementById("enterName").style.display = "none";
+        document.querySelector(".gif-container").remove();
 
         // Load the following content from the user 
         // after they enter a name
@@ -364,14 +364,13 @@ function isBoardFull() {
 }
 
 socket.on("winner", (e) => {
-
     // extract data from server
     const winningPlayer = e.winner;
     const winFound = e.winnerFound;
     console.log ( "SUCCESSFUL: Obtained winning player");
     console.log ( "winnerFound?: " + winFound );
 
-    if ( winnerFound == 1 ) {
+    if ( winFound == 1 ) {
         announceWinner( winningPlayer );
     }
 
@@ -382,8 +381,10 @@ function announceWinner(winner) {
     gameOver = true;
     if (winner == 0) {
         document.getElementById("announce").innerHTML = "It's a tie!";
-    } else {
-        document.getElementById("announce").innerHTML = "Player " + winner + " wins!";
+    } else if ( winner == 1 ) {
+        document.getElementById("announce").innerHTML = "Player RED wins!";
+    } else if ( winner ==2 ) {
+        document.getElementById("announce").innerHTML = "Player YELLOW wins!";
     }
 }
 
