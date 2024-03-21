@@ -191,17 +191,9 @@ function setPiece() {
     // Otherwise, add player 2's piece to the board
     if (currentPlayer == player1 ) {
         tile.classList.add( "player1" );
-
-        // alternate players after each turn
-        // currentPlayer = player2;
-        // document.getElementById( "announce" ).innerHTML = p2turn;
     }
     else {
         tile.classList.add( "player2" );
-
-        // alternate players after each turn
-        // currentPlayer = player1;
-        // document.getElementById( "announce" ).innerHTML = p1turn;
     }
 
     // Whenever a new piece is added, we want to update r
@@ -261,9 +253,6 @@ socket.on("setPiece", (e) => {
 
 })
 
-let winner;
-let winnerFound = 0;
-
 // The function checks for a winner
 // If the board is full and there is no winner, it will determine the game as a tie
 function checkForWinner(){
@@ -273,77 +262,49 @@ function checkForWinner(){
         for (let c = 0; c <= columns - 4; c++) {
             if (board[r][c] != 0 && board[r][c] == board[r][c + 1] &&
                 board[r][c] == board[r][c + 2] && board[r][c] == board[r][c + 3]) {
-                // announceWinner(board[r][c]);
-                winner = board[r][c];
-                winnerFound = 1;
-                console.log ( "SUCCESS: horizontal winner");
-                break;
+                announceWinner(board[r][c]);
+                return;
             } // end if
         } // end for c
     } // end for r
 
-    if ( winnerFound == 0 ) {
-        // vertical
-        for (let r = 0; r <= rows - 4; r++) {
-            for (let c = 0; c < columns; c++) {
-                if (board[r][c] != 0 && board[r][c] == board[r + 1][c] &&
-                    board[r][c] == board[r + 2][c] && board[r][c] == board[r + 3][c]) {
-                    // announceWinner(board[r][c]);
-                    winner = board[r][c];
-                    winnerFound = 1;
-                    console.log ( "SUCCESS: vertical winner");
-                    break;
-                } // end if
-            } // end for c
-        } // end for r
-    } // end if winnerFound
+    // vertical
+    for (let r = 0; r <= rows - 4; r++) {
+        for (let c = 0; c < columns; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r + 1][c] &&
+                board[r][c] == board[r + 2][c] && board[r][c] == board[r + 3][c]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
 
-    if ( winnerFound == 0 ) {
     // diagonal (/)
-        for (let r = 3; r < rows; r++) {
-            for (let c = 0; c <= columns - 4; c++) {
-                if (board[r][c] != 0 && board[r][c] == board[r - 1][c + 1] &&
-                    board[r][c] == board[r - 2][c + 2] && board[r][c] == board[r - 3][c + 3]) {
-                    // announceWinner(board[r][c]);
-                    winner = board[r][c];
-                    winnerFound = 1;
-                    console.log ( "SUCCESS: diagonal (/) winner");
-                    break;
-                } // end if
-            } // end for c
-        } // end for r
-    } // end if winnerFound
+    for (let r = 3; r < rows; r++) {
+        for (let c = 0; c <= columns - 4; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r - 1][c + 1] &&
+                board[r][c] == board[r - 2][c + 2] && board[r][c] == board[r - 3][c + 3]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
 
-    if ( winnerFound == 0 ) {
     // diagonal (\)
-        for (let r = 0; r <= rows - 4; r++) {
-            for (let c = 0; c <= columns - 4; c++) {
-                if (board[r][c] != 0 && board[r][c] == board[r + 1][c + 1] &&
-                    board[r][c] == board[r + 2][c + 2] && board[r][c] == board[r + 3][c + 3]) {
-                    // announceWinner(board[r][c]);
-                    winner = board[r][c];
-                    winnerFound = 1;
-                    console.log ( "SUCCESS: diagonal (\) winner");
-                    break;
-                } // end if
-            } // end for c
-        } // end for r
-    } // end if winnerFound
+    for (let r = 0; r <= rows - 4; r++) {
+        for (let c = 0; c <= columns - 4; c++) {
+            if (board[r][c] != 0 && board[r][c] == board[r + 1][c + 1] &&
+                board[r][c] == board[r + 2][c + 2] && board[r][c] == board[r + 3][c + 3]) {
+                announceWinner(board[r][c]);
+                return;
+            } // end if
+        } // end for c
+    } // end for r
 
     // Check for a tie
     if (isBoardFull()) {
-        winner = 0; // 12 represents a tie
-        winnerFound = 1;
-        // Emitting data to the server after finding winner
-        console.log ( "SUCCESS: tie");
-        // announceWinner(0); // 0 represents a tie
+        announceWinner(0); // 0 represents a tie
     }
-
-    // Emitting data to the server after finding winner
-    socket.emit("setWinner", {
-        winner: winner,
-        winnerFound: winnerFound
-    });
 
 } // end checkForWinner 
 
@@ -362,20 +323,6 @@ function isBoardFull() {
     // When the board is full and there are no empty spots, this function will return true
     return true; 
 }
-
-socket.on("winner", (e) => {
-
-    // extract data from server
-    const winningPlayer = e.winner;
-    const winFound = e.winnerFound;
-    console.log ( "SUCCESSFUL: Obtained winning player");
-    console.log ( "winnerFound?: " + winFound );
-
-    if ( winnerFound == 1 ) {
-        announceWinner( winningPlayer );
-    }
-
-}) 
 
 // Function for announcing winner
 function announceWinner(winner) {

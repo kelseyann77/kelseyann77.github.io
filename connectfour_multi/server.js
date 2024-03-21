@@ -94,6 +94,24 @@ io.on("connection",(socket)=>{
 
     })
 
+    socket.on("setWinner",(e)=>{
+
+        // Extract data sent from the client
+        const { winner, winnerFound } = e;
+        
+        console.log( "winner: " + winner );
+
+        // Send winner info to client
+        io.emit("winner",{ winner: e.winner,
+            winnerFound: e.winnerFound
+        });
+
+        console.log( "winner: " + e.winner );
+        console.log( "winnerFound: " + e.winnerFound );
+
+    })
+        
+
     // How to handle player disconnections
     socket.on('disconnect', () => {
         // Display message of which player
