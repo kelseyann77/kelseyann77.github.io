@@ -13,6 +13,8 @@ const socket = io();
 let username;
 
 // When user clicks on "Search for Opponent" button
+// Disable the "Search for Opponent" button
+// Display the loading animation
 document.getElementById('find').addEventListener("click", function () {
     username = document.getElementById("name").value;
     document.getElementById("user").innerText = username;
@@ -31,6 +33,7 @@ document.getElementById('find').addEventListener("click", function () {
 
 let clientPlayer;
 
+// Listen for "find" event from server
 socket.on("find", (e) => {
 
     // get allPlayers data from server
@@ -43,6 +46,7 @@ socket.on("find", (e) => {
 
         // Hide the following content from the user 
         // after they enter a name
+        // Get rid of loading animation container as well
         document.getElementById("loading").style.display = "none";
         document.getElementById("name").style.display = "none";
         document.getElementById("find").style.display = "none";
@@ -225,6 +229,7 @@ function setPiece() {
 
 } // end function setPiece
 
+// Listen to server for setPiece event
 socket.on("setPiece", (e) => {
 
     // extract data from server
@@ -234,6 +239,7 @@ socket.on("setPiece", (e) => {
     p1id = foundObject.p1.p1move;
     p2id = foundObject.p2.p2move;
 
+    // Change turn announcement according to the sum provided from foundObject
     if ((foundObject.sum) % 2 == 0) {
         document.getElementById("announce").innerText = p2turn;
     }
@@ -241,6 +247,7 @@ socket.on("setPiece", (e) => {
         document.getElementById("announce").innerText = p1turn;
     }
 
+    // Make sure all tile information is updated for both player displays
     if (p1id != '') {
         document.getElementById(`${p1id}`).classList.add( "player1" );
     }
@@ -249,6 +256,7 @@ socket.on("setPiece", (e) => {
         document.getElementById(`${p2id}`).classList.add( "player2" );
     }
 
+    // Change turns according to the sum provided from foundObject
     if ( currentPlay == 1 ) {
         currentPlayer = 2;
     }
@@ -256,6 +264,8 @@ socket.on("setPiece", (e) => {
         currentPlayer = 1;
     }
 
+    // Get board and currentColumns info
+    // so that players are able to place pieces down correctly
     board = e.board;
     currentColumns = e.currentColumns;
 
@@ -367,10 +377,12 @@ socket.on("winner", (e) => {
     // extract data from server
     const winningPlayer = e.winner;
     const winFound = e.winnerFound;
-    console.log ( "SUCCESSFUL: Obtained winning player");
-    console.log ( "winnerFound?: " + winFound );
+    
+    
 
     if ( winFound == 1 ) {
+        console.log ( "SUCCESS: Obtained winning player");
+        console.log ( "See announcement on page for who won" );
         announceWinner( winningPlayer );
     }
 
