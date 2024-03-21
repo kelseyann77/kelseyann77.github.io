@@ -1,25 +1,79 @@
+// Hide the following content from the user when they first open the page
+document.getElementById("loading").style.display = "none";
+document.getElementById("some_content").style.display = "none";
+document.getElementById("userCont").style.display = "none";
+document.getElementById("oppNameCont").style.display = "none";
+document.getElementById("board").style.display = "none";
+document.getElementById("announce").style.display = "none";
+document.getElementById("colorCont").style.display = "none";
+document.getElementById("whosTurn").style.display = "none";
+
 const socket = io();
 
-// function() {
-//     io {
-//         io.socket = io.connect();
-//         io.socket.on('playerJoinedRoom', IO.playerJoinedRoom )
+let username;
 
-//     }
-//     app {
+// When user clicks on "Search for Opponent" button
+document.getElementById('find').addEventListener("click", function () {
+    username = document.getElementById("name").value;
+    document.getElementById("user").innerText = username;
+    if (username == null || username == '') {
+        alert("Please enter a name");
+    }
+    else {
 
-//     }
-//     host {
+        socket.emit("find", { name: username });
 
-//     }
-//     player {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("find").disabled = true;
 
-//     }
-// }
+    }
+});
 
-// socket.on('playerNumber', (playerNumber) => {
-//     pNumber = playerNumber;
-// });
+socket.on("find", (e) => {
+
+    // get allPlayers data from server
+    let allPlayersArray = e.allPlayers;
+    console.log("html",allPlayersArray);
+
+    if (username != '') {
+
+        // Load the game
+        setGame();
+
+        // Hide the following content from the user 
+        // after they enter a name
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("name").style.display = "none";
+        document.getElementById("find").style.display = "none";
+        document.getElementById("enterName").style.display = "none";
+
+        // Load the following content from the user 
+        // after they enter a name
+        document.getElementById("some_content").style.display = "block";
+        document.getElementById("board").style.display = "flex";
+        document.getElementById("userCont").style.display = "block";
+        document.getElementById("oppNameCont").style.display = "block";
+        document.getElementById("colorCont").style.display = "block";
+        document.getElementById("announce").style.display = "block";
+        document.getElementById("announce").innerText = "It's your turn, Player 1 (Red)";
+
+    }
+
+    let oppName;
+    let value;
+
+    // Match the name given to either the user or the opponent
+    const foundObject = allPlayersArray.find(obj => obj.p1.p1name == `${username}` || obj.p2.p2name == `${username}`);
+    
+    // rewrite switch statements
+    foundObject.p1.p1name == `${username}` ? oppName = foundObject.p2.p2name : oppName = foundObject.p1.p1name;
+    foundObject.p1.p1name == `${username}` ? value = foundObject.p1.p1value : value = foundObject.p2.p2value;
+
+    document.getElementById("oppName").innerText = oppName;
+    document.getElementById("colorvalue").innerText = value;
+
+
+})
 
 // Set global variables
 var player1 = 1;
@@ -38,9 +92,9 @@ var rows = 6;
 var columns = 7;
 
 // When the page loads, we want the game to be setup
-window.onload = function() {
-    setGame();
-}
+// window.onload = function() {
+//     setGame();
+// }
 
 // This function sets up the game
 function setGame() {

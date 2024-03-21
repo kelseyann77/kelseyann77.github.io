@@ -10,6 +10,20 @@ button {
 	font-size: large;
 }
 
+.row {
+	width: 95%;
+	display: flex;
+  }
+  
+.column {
+	flex: 40%;
+}
+
+img {
+	align-content: center;
+	width: 10%;
+}
+
 #board {
 	height: 570px;
 	width: 670px;
