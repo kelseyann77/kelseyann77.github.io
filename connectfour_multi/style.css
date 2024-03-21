@@ -24,6 +24,18 @@ img {
 	width: 10%;
 }
 
+.gif-container {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    height: 30vh; 
+}
+
+.gif-container img {
+    max-width: 100%; /* Ensure the image stays within the container */
+    max-height: 100%; /* Ensure the image stays within the container */
+}
+
 #board {
 	height: 570px;
 	width: 670px;
