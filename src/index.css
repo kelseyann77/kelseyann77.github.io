@@ -1,0 +1,41 @@
+body {
+  margin: 30px;
+  /* font-family: "Times New Roman", Times, serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 0.5cm;
+  text-align: justify;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+hr {
+  border: 1.4px solid black;
+}
+
+.headerMain {
+  text-align: center;
+  line-height: 0.7;
+}
+
+.headerSub {
+  text-align: center;
+}
+
+.jobHeader {
+  line-height: 1;
+}
+
+.rightAlign {
+  float: right;
+}
+
+.indentTab {
+  text-indent: 30px;
+}
